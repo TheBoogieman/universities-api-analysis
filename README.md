@@ -126,41 +126,72 @@ con.execute("""
 
 ## 📊 Key Findings
 
-(To be populated after analysis completion)
+### Task 1: Data Cleaning
+✅ Successfully removed 'domains' column from dataset
+- Original columns: 7 (including domains)
+- Final columns: 6 (domains removed)
+- Total universities: [X,XXX]
 
-### Top 3 Countries by University Count
-1. TBD
-2. TBD
-3. TBD
+### Task 2: Top 3 Countries by University Count
 
-### UK, France, China Comparison
-- United Kingdom: TBD universities
-- France: TBD universities
-- China: TBD universities
+ rank       country  university_count
+    1 United States              2349
+    2         Japan               572
+    3         India               474
+
+### Task 3: UK, France, China Comparison
+
+       country  university_count data_source
+         China               398         API
+        France               297         API
+United Kingdom               195         API
+
+### Task 4: Database Storage
+✅ Successfully stored all results in DuckDB
+
+**Tables Created**:
+- `all_universities` - [10,191] rows
+- `top_3_countries` - 3 rows
+- `uk_france_china_counts` - 3 rows
+
+### Additional Insights
+
+**Global Coverage**:
+- Total countries represented: [202]
+- Total universities analyzed: [10,191]
+
+**Top 10 Countries**:
+           country  count
+     United States   2349
+             Japan    572
+             India    474
+             China    398
+           Germany    318
+Russian Federation    309
+            France    297
+Korea, Republic of    244
+    United Kingdom    195
+              Iran    193
+
+## 🎓 Analysis Date
+December 8, 2024
 
 ## 🏗️ Architecture
 ```
 API Source → Python ETL → Pandas Processing → DuckDB Storage
      ↓           ↓              ↓                  ↓
  REST API    requests      Data Cleaning      Analytical
-             library      Transformation       Database
+ LOCAL JSON  library      Transformation       Database
 ```
 
 ## 📈 Data Pipeline
 
-1. **Extract**: Fetch data from Universities API
+1. **Extract**: Fetch data from Universities API/manual json download
 2. **Transform**: 
    - Remove unnecessary columns
    - Clean and validate data
    - Aggregate by country
 3. **Load**: Store in DuckDB for querying
-
-## 🧪 Data Quality
-
-- Total universities: TBD
-- Countries covered: TBD
-- Data completeness: TBD%
-- Missing values: TBD
 
 ## 🎓 Learning Objectives
 
@@ -172,13 +203,13 @@ API Source → Python ETL → Pandas Processing → DuckDB Storage
 
 ## 📝 Development Log
 
-- [ ] API exploration and data profiling
-- [ ] Main ETL script development
-- [ ] Data cleaning implementation
-- [ ] Aggregation and analysis
-- [ ] Database persistence
-- [ ] Documentation and findings
-- [ ] Optional: Historical enrollment analysis
+- [x] API exploration and data profiling
+- [x] Main ETL script development
+- [x] Data cleaning implementation
+- [x] Aggregation and analysis
+- [x] Database persistence
+- [x] Documentation and findings
+- [x] Optional: Historical enrollment analysis
 
 ## 🤝 Contributing
 
@@ -190,9 +221,8 @@ MIT License - see LICENSE file for details
 
 ## 👤 Author
 
-**Your Name**
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [Your Profile](https://linkedin.com/in/your-profile)
+**Aydin Aksoy**
+- GitHub: [@yTheBoogieman](https://github.com/TheBoogieman)
+- LinkedIn: [Aydin Aksoy](https://www.linkedin.com/in/ayd%C4%B1n-aksoy-138714106/)
 
 **API Source**: [Universities API by hipolabs](http://universities.hipolabs.com)
-**Data Engineering Case Study Series**
