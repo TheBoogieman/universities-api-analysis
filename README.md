@@ -21,9 +21,30 @@ This project demonstrates ETL capabilities by working with the Universities API 
 - **DuckDB** - Embedded analytical database
 - **Jupyter** - Interactive exploration
 
+## 📡 Data Sources
+
+### Primary Source: Local JSON File
+- **Source**: [University Domains List by Hipo](https://github.com/Hipo/university-domains-list)
+- **File**: `data/world_universities_and_domains.json`
+- **Usage**: Tasks 1 & 2 (comprehensive dataset)
+- **Reason**: More reliable than API, contains complete data
+
+### Secondary Source: REST API
+- **Endpoint**: http://universities.hipolabs.com/search
+- **Usage**: Task 3 (country-specific queries with fallback)
+- **Parameters**: `?country={country_name}`
+
+## 🔄 Hybrid Approach
+
+The solution uses a hybrid approach for maximum reliability:
+1. **Local JSON**: Primary data source for comprehensive analysis
+2. **API Queries**: Validation and country-specific data (with fallback)
+3. **DuckDB**: Persistent storage for results
+
 ## 📁 Project Structure
 ```
 universities-api-analysis/
+├── data/                        # Folder to hold local json, because full API extract fails
 ├── scripts/
 │   ├── fetch_universities.py    # Main ETL script
 │   └── analyze_universities.py  # Additional analysis

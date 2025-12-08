@@ -38,3 +38,6 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Allow source data JSON
+!data/world_universities_and_domains.json
