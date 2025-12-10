@@ -7,11 +7,11 @@ A data engineering project that fetches, processes, and analyzes global universi
 This project demonstrates ETL capabilities by working with the Universities API to answer specific business questions about global higher education institutions.
 
 ### Business Questions
-1. ✅ Data Cleaning: Remove the "domains" column
-2. ✅ Top Performers: Which three countries have the most universities?
-3. ✅ Specific Analysis: How many universities are in the UK, France, and China?
-4. ✅ Data Persistence: Store results in a database
-5. ⏳ (Optional) Historical Analysis: 2010 enrollment statistics
+- Task 1: Data Cleaning: Remove the "domains" column
+- Task 2: Top Performers: Which three countries have the most universities?
+- Task 3: Specific Analysis: How many universities are in the UK, France, and China?
+- Task 4: Data Persistence: Store results in a database
+- Task 5: Historical Analysis: 2010/2013 enrollment statistics
 
 ## 🛠️ Tech Stack
 
@@ -44,16 +44,18 @@ The solution uses a hybrid approach for maximum reliability:
 ## 📁 Project Structure
 ```
 universities-api-analysis/
-├── data/                        # Folder to hold local json, because full API extract fails
+├── data/                        
 ├── scripts/
-│   ├── fetch_universities.py    # Main ETL script
-│   └── analyze_universities.py  # Additional analysis
+│   ├── fetch_universities.py                   # Main ETL script
+│   └── enrollment_analysis.py                  # Additional analysis
 ├── notebooks/
-│   └── 01_api_exploration.ipynb # Interactive exploration
-├── data/
-│   └── universities.duckdb      # Output database (gitignored)
+│   └── queries.ipynb                           # Querying the database
+├── data/                                       # Folder to hold local json, because full API extract fails
+│   └── world_universities_and_domains.json     # Manual backup of all universities (Faulty API)
+│   └── universities.duckdb                     # Output database (gitignored)
 ├── docs/
-│   └── analysis_results.md      # Analysis findings
+│   └── analysis_results.md                     # Analysis findings
+│   └── query_examples.md                       # Example Queries for duckdb
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -70,7 +72,7 @@ universities-api-analysis/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/<your-username>/universities-api-analysis.git
+git clone https://github.com/TheBoogieman/universities-api-analysis.git
 cd universities-api-analysis
 ```
 
@@ -99,7 +101,7 @@ python scripts/fetch_universities.py
 ### Exploring the Data
 ```bash
 # Launch Jupyter notebook
-jupyter notebook notebooks/01_api_exploration.ipynb
+jupyter notebook notebooks/queries.ipynb
 ```
 
 ### Querying Results
@@ -107,17 +109,17 @@ jupyter notebook notebooks/01_api_exploration.ipynb
 import duckdb
 
 # Connect to the database
-con = duckdb.connect('data/universities.duckdb')
+con = duckdb.connect('../data/universities.duckdb')
 
 # View Task 3 results
 con.execute("""
-    SELECT * FROM universities.uk_france_china_counts
+    SELECT * FROM uk_france_china_counts
 """).df()
 
 # Explore all universities
 con.execute("""
     SELECT country, COUNT(*) as count
-    FROM universities.all_universities
+    FROM all_universities
     GROUP BY country
     ORDER BY count DESC
     LIMIT 10
@@ -130,29 +132,33 @@ con.execute("""
 ✅ Successfully removed 'domains' column from dataset
 - Original columns: 7 (including domains)
 - Final columns: 6 (domains removed)
-- Total universities: [X,XXX]
+- Total universities: [10,191]
 
 ### Task 2: Top 3 Countries by University Count
+| Rank | Country        | University Count |
+|------|----------------|-----------------|
+| 1    | United States  | 2,349           |
+| 2    | Japan          | 572             |
+| 3    | India          | 474             |
 
- rank       country  university_count
-    1 United States              2349
-    2         Japan               572
-    3         India               474
 
 ### Task 3: UK, France, China Comparison
+| Country         | University Count | Data Source |
+|-----------------|-----------------|-------------|
+| China           | 398             | API         |
+| France          | 297             | API         |
+| United Kingdom  | 195             | API         |
 
-       country  university_count data_source
-         China               398         API
-        France               297         API
-United Kingdom               195         API
 
 ### Task 4: Database Storage
 ✅ Successfully stored all results in DuckDB
 
 **Tables Created**:
-- `all_universities` - [10,191] rows
-- `top_3_countries` - 3 rows
-- `uk_france_china_counts` - 3 rows
+- `all_universities`
+- `top_3_countries`
+- `uk_france_china_counts`
+- `enrollment_percentages`
+- `highest_enrollment_global_2010`
 
 ### Additional Insights
 
@@ -161,17 +167,18 @@ United Kingdom               195         API
 - Total universities analyzed: [10,191]
 
 **Top 10 Countries**:
-           country  count
-     United States   2349
-             Japan    572
-             India    474
-             China    398
-           Germany    318
-Russian Federation    309
-            France    297
-Korea, Republic of    244
-    United Kingdom    195
-              Iran    193
+| Country              | Count |
+|----------------------|-------|
+| United States        | 2,349 |
+| Japan                | 572   |
+| India                | 474   |
+| China                | 398   |
+| Germany              | 318   |
+| Russian Federation   | 309   |
+| France               | 297   |
+| Korea, Republic of   | 244   |
+| United Kingdom       | 195   |
+| Iran                 | 193   |
 
 ## 🎓 Analysis Date
 December 8, 2024
@@ -196,6 +203,7 @@ API Source → Python ETL → Pandas Processing → DuckDB Storage
 ## 🎓 Learning Objectives
 
 - REST API integration and error handling
+- JSON manipulation with python
 - Data manipulation with pandas
 - Embedded database usage (DuckDB)
 - ETL pipeline design
@@ -209,7 +217,7 @@ API Source → Python ETL → Pandas Processing → DuckDB Storage
 - [x] Aggregation and analysis
 - [x] Database persistence
 - [x] Documentation and findings
-- [x] Optional: Historical enrollment analysis
+- [x] 2010/2013 Historical enrollment analysis
 
 ## 🤝 Contributing
 

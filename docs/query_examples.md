@@ -80,6 +80,27 @@ ORDER BY university_count DESC
 LIMIT 10;
 ```
 
+### Task 5a Results 
+
+```sql
+SELECT 
+    year,
+    FORMAT('{:,}',ROUND(enrollment_rate, 6)) AS enrollment_rate,
+    FORMAT('{:,}',CAST(total_enrolled AS BIGINT)) AS total_enrolled,
+    FORMAT('{:,}',population) as population,
+    total_enrolled_calculated,
+    country,
+    iso_code
+FROM enrollment_percentages;
+```
+
+### Task 5b Results
+```sql
+    SELECT *
+    FROM highest_enrollment_global_2010 
+    order by total_enrolled desc limit 20;
+```
+
 ## Closing Connection
 ```python
 con.close()
